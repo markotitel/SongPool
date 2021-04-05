@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - Confirm Song{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<div class="columns">
+    <div class="column col-12">
+        <div class="card" style="border:0px;">
+            <div class="card-title h4" style="padding-bottom:10px;margin:0 auto;">
+                <div>Song Confirmation</div>
+            </div>
+            <div class="card-image" style="margin:0 auto;">
+                <iframe class="ytimg" style="height:330px;width:280px;margin:0 auto;" src="{{ data['listen_url'] }}"></iframe>
+            </div>
+            <div class="card-title h5" style="padding-top:10px;margin:0 auto;">
+                <div class="text-break truncate">{{ data['track_name'] }}</div>
+            </div>
+            <div class="card-subtitle" style="margin:0 auto;">
+                <div class="text-break truncate">{{ data['artist_name'] }}</div>
+            </div>
+            <div class="card-subtitle" style="margin:0 auto;">
+                <div class="truncate">Release: {{ data['release_date'] }}</div>
+            </div>
+            <div class="card-title h5" style="padding-top:10px;margin:0 auto;">
+                <div class="truncate">{{ data['match_percent'] }}% Match</div>
+            </div>
+            <div class="card-body" style="margin:0 auto;">
+                <form action="/confirm/{{ song_id }}/confirm" class="form-horizontal" method="post">
+                    <div class="form-group">
+                        <div class="col-12 col-sm-12 col-ml-auto">
+                            <input style="width:75px" class="btn btn-success" type="submit" value="Confirm"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer" style="margin:0 auto;">
+                {% if data['match_percent'] < 99 %}
+                <form action="/confirm/{{ song_id }}/retry" class="form-horizontal" method="post">
+                    <div class="form-group">
+                        <div class="col-12 col-sm-12 col-ml-auto">
+                            <input style="width:75px" class="btn btn-primary" type="submit" value="Retry"/>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

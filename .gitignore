@@ -1,0 +1,6 @@
+# Project exclude paths
+/venv/
+/.idea/
+/.cache/
+/data/sessions/
+data/database.db

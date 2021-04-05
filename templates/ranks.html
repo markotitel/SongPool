@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - Ranking{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<div></div>
+<div class="accordion">
+    <input id="accordion-0" type="checkbox" name="accordion-radio" hidden>
+    <label class="accordion-header c-hand" style="margin-bottom:8px;" for="accordion-0">
+        <i class="icon bi-caret-down-fill mr-1"></i>
+        <strong>User Ranking</strong>
+    </label>
+    <div class="accordion-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column col-12" style="padding-left:30px">
+                    <p>This ranking is calculated by song score, submissions, and songs the user has left to vote on.</p>
+                    <pre style="margin-top:-15px;font-size:0.8em">(SCORE / SUB) - VOTE</pre>
+                    <ol>
+                    {% for u, r in ranking.items() %}
+                        <li><span><a href="/user/{{ u }}" style="text-decoration:none;">{{ u }}</a> [{{ r }}]</span></li>
+                    {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% for data in [["Top", top, 1], ["Reject", reject, 2]] %}
+<div class="accordion">
+    <input id="accordion-{{ data[2] }}" type="checkbox" name="accordion-radio" hidden>
+    <label class="accordion-header c-hand" style="margin-bottom:8px;" for="accordion-{{ data[2] }}">
+        <i class="icon bi-caret-down-fill mr-1"></i>
+        <strong>{{ data[0] }} Songs</strong>
+    </label>
+    <div class="accordion-body">
+        {% for song in data[1] %}
+        <a class="songhover" href="/song/{{ song['id'] }}" style="text-decoration:none;">
+            <div class="container">
+                <div class="columns">
+                    <div class="column col-12">
+                        <div class="ytimg" style="background-image: url('{{ song['service']['artwork'] }}')"></div>
+                        <div class="truncate">
+                            <span class="text-primary">
+                                <strong>Title </strong>
+                            </span>
+                            <span class="text-dark truncate">
+                                {{ song['service']['track_name'] }}
+                            </span>
+                        </div>
+                        <div class="truncate">
+                            <span class="text-primary">
+                                <strong>Artist </strong>
+                            </span>
+                            <span class="text-dark">
+                                {{ song['service']['artist_name'] }}
+                            </span>
+                        </div>
+                        <div class="truncate">
+                            <span class="text-primary">
+                                <strong>Rating </strong>
+                            </span>
+                            <span class="text-dark">
+                            {% if song['has_voted'] %}
+                                {{ song['rating'][0] }} - {{ song['rating'][1] }}{% if song['left_to_vote'] > 0 %} - LR{{ song['left_to_rate'] }}{% endif %}
+                            {% else %}
+                                <em style="font-size:0.8em">hidden</em>
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div class="divider"></div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

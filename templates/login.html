@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - Login{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<strong>Account Login</strong>
+{% if error %}
+<div style="margin:10px 0 10px 0"><span class="label label-error">You either forgot who you are or you're trying something naughty!</span>
+</div>{% endif %}
+{% if session['logged_in'] %}
+<div style="margin:10px 0 10px 0"><span class="label label-warning">You're logged in already you goose!</span>
+</div>{% endif %}
+<div class="columns">
+    <div class="column col-12">
+        <p style="max-width:450px;">This is an invitation only site so get somebody to invite you. If you don't know who is registered you can find out <a href="/user/">here</a>, and have them invite you.</p>
+        <form action="/login/" class="form-horizontal" method="post">
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label" for="username">Username</label>
+                </div>
+                <div class="col-9 col-xl-12">
+                    <input class="form-input" id="username" name="username" required type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label" for="password">Password</label>
+                </div>
+                <div class="col-9 col-xl-12">
+                    <input class="form-input" id="password" name="password" required type="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="btn" type="submit" value="Log In"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block pagenav %}
+<span style="float:right">
+    <a class="btn btn-link tooltip tooltip-top" data-tooltip="Recovery" href="/forgot/">
+        <i class="bi-shield-lock" style="font-size: 1.5em"></i>
+    </a>
+</span>
+<span style="float:left">
+    <a class="btn btn-link tooltip tooltip-top" data-tooltip="Contact" href="mailto:invite@songpool.xyz">
+        <i class="bi-disc" style="font-size: 1.5em"></i>
+    </a>
+</span>
+{% endblock %}

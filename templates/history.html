@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - History{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<strong>Song History for {{ viewuser }} ({{ total }})</strong>
+<div class="columns">
+    <div class="column col-12">
+        <div style="margin-top:10px;">
+            {% for song in songs %}
+            <a href="/song/{{ song['id'] }}">
+                <div class="truncate" style="margin:2px 0 0 10px;font-size:0.85em">
+                    {{ song['service']['track_name'] }} - {{ song['service']['artist_name'] }}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

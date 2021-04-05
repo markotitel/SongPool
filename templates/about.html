@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - About{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<img style="margin-left:30px;width:128px" src="/static/img/logo.png"><br>
+<div style="margin-bottom:10px;"><strong>About {{ site_name }}</strong></div>
+<p style="max-width:450px;">This is where weirdos gather to rate each others terrible song choices. This is an invitation only site, so good luck with that.</p>
+{% endblock %}

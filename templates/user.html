@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block header %}<!--suppress XmlHighlighting -->
+<h1>{% block title %}{{ site_name }} - About {{ viewuser }}{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<strong>About {{ viewuser }}</strong>
+{% if error %}<div style="margin:10px 0 10px 0"><span class="label label-error">This user does not exist!</span></div>{% else %}
+{% if short_password %}<div style="margin:10px 0 10px 0"><span class="label label-error">Use a better password!</span></div>{% endif %}
+<div class="columns">
+    <div class="column col-12">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label">Song Score</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" readonly type="text" value="{{ points }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label">Submissions</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" readonly type="text" value="{{ submissions }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <a href="/history/{{ viewuser }}">
+                        <input class="btn" type="submit" value="View History"/>
+                    </a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label">Left To Vote</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" readonly type="text" value="{{ left_to_vote }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label">Last Login</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" readonly type="text" value="{{ last_login }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label">Invited By</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" readonly type="text" value="{{ invited_by }}">
+                </div>
+            </div>
+            {% if can_see_invite_code %}
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label">Invite Code</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" readonly type="text" value="{{ site_address }}/invite/{{ invite_code }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label">Invites Left</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" readonly type="text" value="{{ invites_left }}">
+                </div>
+            </div>
+            <br /><strong>User Options</strong>
+            <form action="/password/" class="form-horizontal" method="post">
+                <div class="form-group">
+                    <div class="col-3 col-xl-12">
+                        <label class="form-label" for="password">Password</label>
+                    </div>
+                    <div class="col-9 col-sm-12 col-ml-auto">
+                        <input class="form-input" id="password" name="password" required minlength="8" type="password">
+                        <input class="form-input" id="username" name="username" required readonly type="hidden" value="{{ viewuser }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-9 col-sm-12 col-ml-auto">
+                        <input class="btn" type="submit" value="Change Password"/>
+                    </div>
+                </div>
+            </form>
+            <form action="/options/" class="form-horizontal" method="post">
+                <div class="form-group">
+                    <div class="col-3 col-xl-12">
+                        <label class="form-label" for="num_pages">Per Page</label>
+                    </div>
+                    <div class="col-9 col-sm-12 col-ml-auto">
+                        <input class="form-input" id="num_pages" name="num_pages" required minlength="1" type="number" value="{{ num_pages }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-3 col-xl-12">
+                        <label class="form-label" for="song_pref">Hearing</label>
+                    </div>
+                    <div class="col-9 col-sm-12 col-ml-auto">
+                        <select class="form-select" name="song_pref" id="song_pref">
+                            {% for value, actual in song_pref_list.items() %}
+                                <option value="{{ value }}" {% if value == song_pref %} selected {% endif %}>
+                                    {{ actual }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-9 col-sm-12 col-ml-auto">
+                        <input class="btn" type="submit" value="Change Options"/>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+            <br /><div style="margin-bottom:10px;"><strong>{{ viewuser }}'s Preferences</strong></div>
+            {% if extra_details == 'empty' %}
+            <p>This user is pretty slack and hasn't submitted any songs yet.</p>
+            {% else %}
+            {% for value, actual in extra_details.items() %}
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label">{{ value }}</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" readonly type="text" value="{{ actual[1] }} ({{ actual[0] }})">
+                </div>
+            </div>
+            {% endfor %}
+            <div class="form-group">
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <a href="/recomm/{{ viewuser }}">
+                        <input class="btn" type="submit" value="View Recommendations"/>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

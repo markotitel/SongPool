@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - Invitation{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<strong>Invitation Registration</strong>
+{% if session['logged_in'] %}<div style="margin:10px 0 10px 0"><span class="label label-warning">You're already a registered user!</span></div>{% else %}
+{% if user_exists %}<div style="margin:10px 0 10px 0"><span class="label label-error">That user already exists!</span></div>{% endif %}
+{% if short_password %}<div style="margin:10px 0 10px 0"><span class="label label-error">Use a better password!</span></div>{% endif %}
+{% if blacklisted %}<div style="margin:10px 0 10px 0"><span class="label label-error">Don't be stupid, you can't use that username!</span></div>{% endif %}
+{% if less_than_four %}<div style="margin:10px 0 10px 0"><span class="label label-error">Username has to be at least 4 characters!</span></div>{% endif %}
+{% if more_than_sixteen %}<div style="margin:10px 0 10px 0"><span class="label label-error">Username cannot be more than 16 characters!</span></div>{% endif %}
+{% if invalid_invite_code %}<div style="margin:10px 0 10px 0"><span class="label label-error">You can't just guess an invitation code!</span></div>{% endif %}
+{% if no_more_invites %}<div style="margin:10px 0 10px 0"><span class="label label-error">Aw man, <em>{{ invite_from }}</em> has no more invites left!</span></div>{% endif %}
+{% if valid_invite_code %}<div style="margin:10px 0 10px 0"><span class="label label-success">Valid invitation from <em>{{ invite_from }}</em>, you lucky duck!</span></div>
+<div class="columns">
+    <div class="column col-12">
+        <form action="/invite/{{ invite_code }}" class="form-horizontal" method="post">
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label" for="username">Username</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" id="username" name="username" required type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label" for="password">Password</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" id="password" name="password" required type="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label" for="invite_code">Invite Code</label>
+                </div>
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="form-input" id="invite_code" name="invite_code" readonly required
+                           type="text" value="{{ invite_code }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="btn" type="submit" value="Register"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

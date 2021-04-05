@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - Oops{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="empty" style="background-color:#fff;">
+    <p class="empty-title h5">{{ error }}</p>
+    <p class="empty-subtitle">Oh that's embarrassing...</p>
+    <img style="display:block;margin:0 auto;width:128px" src="/static/img/logo.png">
+</div>
+{% endblock %}

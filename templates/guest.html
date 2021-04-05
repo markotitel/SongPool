@@ -1,0 +1,38 @@
+{% block content %}
+<img style="display:block;margin:0 auto;width:260px" src="{{ url_for('static', filename='img/skully.png') }}">
+<div style="text-align:center;margin-bottom:10px;"><strong>Welcome to {{ site_name }}</strong></div>
+<p style="text-align:center;">This is where weirdos gather to rate each others terrible song choices. This is an invitation only site, so good luck with that.<br />But for now check out the best and the worst song choices.</p>
+{% for data in [["Top", top], ["Reject", reject]] %}
+<div style="margin-bottom:10px;"><strong>Current {{ data[0] }}</strong></div>
+<div class="container">
+    <div class="columns">
+        <div class="column col-12">
+            <div class="ytimg" style="background-image: url('{{ data[1]['service']['artwork'] }}')"></div>
+            <div class="truncate">
+                <span class="text-primary">
+                    <strong>Title </strong>
+                </span>
+                <span class="text-dark">
+                    {{ data[1]['service']['track_name'] }}
+                </span>
+            </div>
+            <div class="truncate">
+                <span class="text-primary">
+                    <strong>Artist </strong>
+                </span>
+                <span class="text-dark">
+                    {{ data[1]['service']['artist_name'] }}
+                </span>
+            </div>
+            <span class="text-primary">
+                <strong>Rating </strong>
+            </span>
+            <span class="text-dark">
+                {{ data[1]['rating'][1] }}
+            </span>
+        </div>
+    </div>
+</div>
+<br>
+{% endfor %}
+{% endblock %}

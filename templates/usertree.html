@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - User Tree{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<strong>User Tree</strong>
+<p>Look at all the lovely people.<br>There are currently {{ total }} registered users.</p>
+<div style="line-height:1.15em;text-decoration:none;font-size:0.9em">
+    {% for tree in user_tree %}<pre>{{ tree|safe }}</pre>{% endfor %}
+</div>
+<p></p>
+{% endblock %}

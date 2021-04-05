@@ -1,0 +1,42 @@
+{% block content %}
+{% for song in songs %}
+<a class="songhover" href="/song/{{ song['id'] }}" style="text-decoration:none;">
+    <div class="container">
+        <div class="columns">
+            <div class="column col-12">
+                <div class="ytimg" style="background-image: url('{{ song['service']['artwork'] }}')"></div>
+                <div class="truncate">
+                    <span class="text-primary">
+                        <strong>Title </strong>
+                    </span>
+                    <span class="text-dark truncate">
+                        {{ song['service']['track_name'] }}
+                    </span>
+                </div>
+                <div class="truncate">
+                    <span class="text-primary">
+                        <strong>Artist </strong>
+                    </span>
+                    <span class="text-dark truncate">
+                        {{ song['service']['artist_name'] }}
+                    </span>
+                </div>
+                <div class="truncate">
+                    <span class="text-primary">
+                        <strong>Rating </strong>
+                    </span>
+                    <span class="text-dark truncate">
+                    {% if song['has_voted'] %}
+                        {{ song['rating'][0] }} - {{ song['rating'][1] }}{% if song['left_to_vote'] > 0 %} - LR{{ song['left_to_vote'] }}{% endif %}
+                    {% else %}
+                        <em style="font-size:0.8em">hidden</em>
+                    {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+<div class="divider"></div>
+{% endfor %}
+{% endblock %}

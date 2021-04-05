@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>{{ site_name }}</title>
+    <link href="{{ url_for('static', filename='css/minireset.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/spectre.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/trashtunes.css') }}" rel="stylesheet">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-touch.png') }}">
+    <link rel="apple-touch-startup-image" href="{{ url_for('static', filename='img/skully.png') }}">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="{{ site_name }}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+</head>
+<body>
+{% if song_background %}
+<div class="song-background" style="background-image: url('{{ song['service']['artwork'] }}')"></div>
+{% else %}
+<div class="tiled-background" style="background-image: url('{{ url_for('static', filename='img/mosaic.png') }}')"></div>
+{% endif %}
+<div class="get-a-better-device">
+    <img src="{{ url_for('static', filename='img/sad-face.png') }}">
+    <p style="margin:0 15px 0 15px;text-align:center;">Oh no, this screen is way too small to experience {{ site_name }}!</p>
+</div>
+<div class="i-can-see-clearly" style="background-color:#fff;">
+    <header class="navbar">
+        <section class="navbar-section">
+            <a id="site_name" class="btn btn-link" href="{{ url_for('route.index') }}">
+                <strong>{{ site_name }}</strong>
+            </a>
+            <a id="site_icon" class="btn btn-link" href="{{ url_for('route.index') }}">
+                <i class="bi-music-note-list" style="font-size: 1.5em"></i>
+            </a>
+            {% if session['logged_in'] %}
+            <a class="btn btn-link tooltip tooltip-bottom" data-tooltip="Add" href="{{ url_for('route.add') }}">
+                <i class="bi-plus-square" style="font-size: 1.5em"></i>
+            </a>
+            <a class="btn btn-link tooltip tooltip-bottom" data-tooltip="Ranks" href="{{ url_for('route.ranks') }}">
+                <i class="bi-filter-square" style="font-size: 1.5em"></i>
+            </a>
+            <a class="btn btn-link tooltip tooltip-bottom" data-tooltip="Rules" href="{{ url_for('route.rules') }}">
+                <i class="bi-exclamation-square" style="font-size: 1.5em"></i>
+            </a>
+            <a class="btn btn-link tooltip tooltip-bottom" data-tooltip="Catchup" href="{{ url_for('route.catchup') }}">
+                <i class="bi-caret-right-square" style="font-size: 1.5em"></i>
+            </a>
+            {% endif %}
+        </section>
+        <section class="navbar-section">
+            {% if session['logged_in'] %}
+            <a class="btn btn-link tooltip tooltip-bottom" data-tooltip="{{ session['username'] }}" href="{{ url_for('route.user') }}{{ session['username'] }}">
+                <i class="bi-person-square" style="font-size: 1.5em"></i>
+            </a>
+            <a class="btn btn-link tooltip tooltip-bottom" data-tooltip="Logout" href="{{ url_for('route.logout') }}">
+                <i class="bi-x-square" style="font-size: 1.5em"></i>
+            </a>
+            {% else %}
+            <a class="btn btn-link tooltip tooltip-bottom" data-tooltip="Login" href="{{ url_for('route.login') }}">
+                <i class="bi-caret-down-square" style="font-size: 1.5em"></i>
+            </a>
+            {% endif %}
+        </section>
+    </header>
+    <div class="container" id="content" style="background-color:#fff">
+        <section class="content">
+            {% block content %}{% endblock %}
+        </section>
+        <section class="navbar" style="padding-bottom:10px">
+            {% block pagenav %}{% endblock %}
+        </section>
+    </div>
+</div>
+</body>
+</html>

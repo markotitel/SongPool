@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - Submit{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<strong>Song Submission</strong>
+{% if request.args.get('error') == 'duplicate' %}
+<div style="margin:10px 0 10px 0">
+    <span class="label label-error">Looks like that song has been submitted already!</span>
+</div>
+{% endif %}
+{% if request.args.get('error') == 'match' %}
+<div style="margin:10px 0 10px 0">
+    <span class="label label-error">Could not find a match on Spotify!</span>
+</div>
+{% endif %}
+{% if request.args.get('error') == 'api' %}
+<div style="margin:10px 0 10px 0">
+    <span class="label label-error">The Spotify API is overloaded, try again later!</span>
+</div>
+{% endif %}
+{% if request.args.get('error') == 'unknown' %}
+<div style="margin:10px 0 10px 0">
+    <span class="label label-error">Uh oh, something happened that wasn't supposed to happen!</span>
+</div>
+{% endif %}
+{% if credit[0] < 1 %}
+<div style="margin:10px 0 10px 0">
+    <span class="label label-error">You don't have any post credits. Ain't that a shame!</span>
+</div>
+{% else %}
+<div style="margin:10px 0 10px 0"><span>You have {{credit[0] }} post credit{{ credit[1] }} left!</span></div>
+<div class="columns">
+    <div class="column col-12">
+        <form action="/confirm/{{ song_id }}" class="form-horizontal" method="post">
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label" for="title">Title</label>
+                </div>
+                <div class="col-9 col-xl-12">
+                    <input class="form-input" id="title" maxlength="64" name="title" required type="text" value="{{ title }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label" for="artist">Artist</label>
+                </div>
+                <div class="col-9 col-xl-12">
+                    <input class="form-input" id="artist" maxlength="64" name="artist" required type="text" value="{{ artist }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-3 col-xl-12">
+                    <label class="form-label" for="justify">Justification</label>
+                </div>
+                <div class="col-9 col-xl-12">
+                    <textarea class="form-input" id="justify" maxlength="256" name="justify" required rows="5">{{ justify }}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-9 col-sm-12 col-ml-auto">
+                    <input class="btn" type="submit" value="Confirm Song"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - Listen{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<div class="container">
+    <div class="columns">
+        <div class="column col-12">
+            <div class="card no-border">
+                <div class="card-image">
+                    <iframe class="listen-song" src="{{ song['service']['listen_url'] }}"></iframe>
+                </div>
+                {% if is_owner or song['has_voted'] %}
+                <div class="card-footer listen-rating">
+                    <span><strong>{{ song['rating'][0] }} Points</strong></span>
+                </div>
+                <div class="card-footer listen-human-rating">
+                    <span>{{ song['rating'][1] }}</span>
+                </div>
+                {% if song['left_to_vote'] > 0 %}
+                <div class="card-footer listen-rate">
+                    <span>{{ song['left_to_vote'] }} User{% if song['left_to_vote'] != 1 %}s{% endif %} left to rate!</span>
+                </div>
+                {% endif %}
+                {% if song['owner'] == session['username'] and song['rating'][0] == 0 %}
+                <div class="listen-delete">
+                    <a class="text-dark listen-delete" href="/delete/{{ song['id'] }}">
+                        <button class="btn btn-error">Delete Song</button>
+                    </a>
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="card-footer listen-rate">
+                    {% for rate in [-3, -2, 0, 2, 3] %}
+                    <a class="text-dark" href="/rate/{{ song['id'] }}/{{ rate }}">
+                        <img src="/static/img/rate/{{ rate }}.png">
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <div class="columns">
+        <div class="column col-12">
+            <p>
+                <strong>
+                    <span class="text-primary">[OP]&nbsp;</span>{% if song['has_voted'] %}{{ song['owner'] }}{% else %}<em>hidden</em>{% endif %}
+                </strong>
+                <br>{{ song['justify'] }}
+            </p>
+        </div>
+    </div>
+    {% if not is_owner and not has_comment and song['has_voted'] %}
+    <div class="columns comments">
+        <div class="column col-12">
+            <form action="/song/{{ song['id'] }}" class="form-horizontal" method="post">
+                <textarea class="form-input" id="comment" maxlength="256" name="comment" required rows="3">{{ comment }}</textarea>
+                <input class="btn comments" type="submit" value="Submit Comment"/>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <div class="columns">
+        <div class="column col-12">
+            {% for c in comments %}
+            <p class="text-break"><strong>{{ c[0] }}</strong><br>{{ c[1] }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

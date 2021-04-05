@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - Rules{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<strong>Rules for {{ site_name }}</strong>
+<p></p>
+<ol class="list">
+    <li><span>Don't rate your own song, you know how. Just don't do it.</span></li>
+    <li><span>Try and listen to it before rating, it's only a preview.</span></li>
+    <li><span>Put good tasteful music if you want good ratings.</span></li>
+    <li><span>Not on Spotify? Oh well bad luck, try harder.</span></li>
+    <li><span>A song can only be removed if its rank is zero.</span></li>
+    <li><span>You only get one comment per song. Make it a good one.</span></li>
+    <li><span>NO MASHUPS. Remixes and remasters are okay though.</span></li>
+    <li><span>Don't add every song from the same artist or album.</span></li>
+    <li><span>Oh and the most important one. <strong>Don't be a dick.</strong></span></li>
+    <li><span>??? Profit ???</span></li>
+</ol>
+{% endblock %}

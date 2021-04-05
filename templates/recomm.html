@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}<h1>{% block title %}{{ site_name }} - Recommendations{% endblock %}</h1>{% endblock %}
+
+{% block content %}
+<div class="divider"></div>
+<strong>Song Recommendations{% if viewuser %} for {{ viewuser }}{% endif %}</strong>
+<div class="columns">
+    <div class="column col-12">
+        <div style="margin-top:10px;">
+            {% if songs == 'empty' %}
+            <p>This user is pretty slack and hasn't submitted any songs yet.</p>
+            {% else %}
+            {% for song in songs %}
+            <iframe class="listen-song" src="{{ song }}"></iframe>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
